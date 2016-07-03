@@ -5,9 +5,22 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var config = require('config.json');
+
+var mongoose = require('mongoose');
+mongoose.connect(config.mongo);
+require('./models/modelLoader.js');
+
 var routes = require('./routes/index');
 
 var app = express();
+
+var RateLimit = require('express-rate-limit');
+var limiter = new RateLimit({
+    windowMs: 15*60*1000, // 15 minutes
+    max: 200,
+    delayMs: 0 // disable delaying - full speed until the max limit is reached
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,11 +60,11 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 

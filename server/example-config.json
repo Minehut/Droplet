@@ -1,0 +1,3 @@
+{
+  "mongo": "mongodb://user:password@mchost.co/mchost"
+}
