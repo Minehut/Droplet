@@ -1,0 +1,3 @@
+name: Droplet
+main: com.minehut.droplet.bukkit.DropletBukkit
+version: ${project.version}
