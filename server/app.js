@@ -16,7 +16,7 @@ var routes = require('./routes/index');
 var app = express();
 
 var RateLimit = require('express-rate-limit');
-var limiter = new RateLimit({
+var limiter = new RateLimit({ //one update per 5 seconds
     windowMs: 15*60*1000, // 15 minutes
     max: 200,
     delayMs: 0 // disable delaying - full speed until the max limit is reached
