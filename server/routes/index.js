@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/status/bukkit', function(req, res, next) {
   if(req.body.key) {
+    console.log('key: ' + req.body.key);
     Server.findOne({droplet_key: req.body.key}, function(err, server) {
       if(!server) {
         console.log('Unable to find server with matching key.');
