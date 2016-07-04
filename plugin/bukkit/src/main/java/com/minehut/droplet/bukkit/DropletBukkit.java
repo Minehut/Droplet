@@ -27,6 +27,7 @@ public class DropletBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         FileConfiguration config = getConfig();
+        saveDefaultConfig();
 
         if (!config.contains("key")) {
             Bukkit.getLogger().log(Level.SEVERE, "Key was not found in config.yml, disabling...");
