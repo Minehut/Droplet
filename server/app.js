@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var config = require('config.json');
+var config = require('./config.json');
 
 var mongoose = require('mongoose');
 mongoose.connect(config.mongo);
