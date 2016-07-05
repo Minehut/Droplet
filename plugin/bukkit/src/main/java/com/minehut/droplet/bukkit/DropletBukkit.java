@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,19 +24,25 @@ import java.util.logging.Level;
 public class DropletBukkit extends JavaPlugin {
     public String key = null;
     public boolean doUpdate = true;
+    public String iconMateral = Material.DIAMOND.toString();
 
     @Override
     public void onEnable() {
         FileConfiguration config = getConfig();
-        saveDefaultConfig();
+        config.options().copyDefaults(true);
+        saveConfig();
 
         if (!config.contains("key")) {
             Bukkit.getLogger().log(Level.SEVERE, "Key was not found in config.yml, disabling...");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-
         this.key = config.getString("key");
+
+        if (config.contains("icon_material")) {
+            this.iconMateral = iconMateral.toUpperCase();
+            this.iconMateral = iconMateral.replace(' ', '_');
+        }
 
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
             @Override
@@ -60,6 +67,7 @@ public class DropletBukkit extends JavaPlugin {
             params.add(new BasicNameValuePair("ip", Bukkit.getIp()));
             params.add(new BasicNameValuePair("port", Integer.toString(Bukkit.getPort())));
             params.add(new BasicNameValuePair("motd", Bukkit.getMotd()));
+            params.add(new BasicNameValuePair("icon_material", iconMateral));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
             //Execute and get the response.

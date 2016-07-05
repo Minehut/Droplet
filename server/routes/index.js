@@ -19,6 +19,11 @@ router.post('/status/bukkit', function(req, res, next) {
         return res.end('Unable to find server with matching key.');
       }
 
+      var icon_material = "DIAMOND";
+      if(req.body.icon_material) {
+        icon_material = req.body.icon_material;
+      }
+
       Server.update({_id: server._id}, {
         $set: {
           third_party: true,
@@ -28,7 +33,8 @@ router.post('/status/bukkit', function(req, res, next) {
           max_players: req.body.max_players,
           ip: req.body.ip,
           port: req.body.port,
-          motd: req.body.motd
+          motd: req.body.motd,
+          icon_material: icon_material
         }
       }, function(err) {
         console.log('Updated ' + server.name);
