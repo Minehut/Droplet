@@ -22,6 +22,7 @@ router.post('/status/bukkit', function(req, res, next) {
       var icon_material = "DIAMOND";
       if(req.body.icon_material) {
         icon_material = req.body.icon_material;
+          console.log('icon_material: ' + req.body.icon_material);
       }
 
       Server.update({_id: server._id}, {
