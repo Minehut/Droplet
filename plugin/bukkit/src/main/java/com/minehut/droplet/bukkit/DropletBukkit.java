@@ -11,6 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.InputStream;
@@ -22,12 +23,18 @@ import java.util.logging.Level;
  * Created by luke on 7/3/16.
  */
 public class DropletBukkit extends JavaPlugin {
+    private static DropletBukkit instance;
+
     public String key = null;
     public boolean doUpdate = true;
     public String iconMateral = Material.DIAMOND.toString();
 
+    private JoinManager joinManager;
+
     @Override
     public void onEnable() {
+        instance = this;
+
         FileConfiguration config = getConfig();
         config.options().copyDefaults(true);
         saveConfig();
@@ -44,6 +51,8 @@ public class DropletBukkit extends JavaPlugin {
             this.iconMateral = iconMateral.replace(' ', '_');
         }
 
+        this.joinManager = new JoinManager();
+
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
@@ -54,6 +63,11 @@ public class DropletBukkit extends JavaPlugin {
         }, 0L, 100L); //update every 5 seconds
     }
 
+    /**
+     * Responsible for sending status
+     * post requests to the droplet
+     * web server.
+     */
     public void sendStatusUpdate() {
         try {
             HttpClient httpclient = HttpClients.createDefault();
@@ -85,5 +99,9 @@ public class DropletBukkit extends JavaPlugin {
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static DropletBukkit getInstance() {
+        return instance;
     }
 }
