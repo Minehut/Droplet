@@ -27,7 +27,6 @@ public class DropletBukkit extends JavaPlugin {
 
     public String key = null;
     public boolean doUpdate = true;
-    public String iconMateral = Material.DIAMOND.toString();
 
     private JoinManager joinManager;
 
@@ -39,17 +38,12 @@ public class DropletBukkit extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
 
-        if (!config.contains("key")) {
+        if (!config.contains("secret-key")) {
             Bukkit.getLogger().log(Level.SEVERE, "Key was not found in config.yml, disabling...");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-        this.key = config.getString("key");
-
-        if (config.contains("icon_material")) {
-            this.iconMateral = iconMateral.toUpperCase();
-            this.iconMateral = iconMateral.replace(' ', '_');
-        }
+        this.key = config.getString("secret-key");
 
         this.joinManager = new JoinManager();
 
@@ -81,7 +75,6 @@ public class DropletBukkit extends JavaPlugin {
             params.add(new BasicNameValuePair("ip", Bukkit.getIp()));
             params.add(new BasicNameValuePair("port", Integer.toString(Bukkit.getPort())));
             params.add(new BasicNameValuePair("motd", Bukkit.getMotd()));
-            params.add(new BasicNameValuePair("icon_material", iconMateral));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
             //Execute and get the response.
