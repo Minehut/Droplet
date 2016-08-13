@@ -30,6 +30,8 @@ public class DropletBukkit extends JavaPlugin {
 
     private JoinManager joinManager;
 
+    private String ip = "";
+
     @Override
     public void onEnable() {
         instance = this;
@@ -44,6 +46,10 @@ public class DropletBukkit extends JavaPlugin {
             return;
         }
         this.key = config.getString("secret-key");
+
+        if (config.getString("ip") != null) {
+            this.ip = config.getString("ip");
+        }
 
         this.joinManager = new JoinManager();
 
@@ -67,12 +73,17 @@ public class DropletBukkit extends JavaPlugin {
             HttpClient httpclient = HttpClients.createDefault();
             HttpPost httppost = new HttpPost("http://mchost.co:8003/status/bukkit");
 
+            String usedIp = this.ip;
+            if (usedIp.equals("")) {
+                usedIp = Bukkit.getIp();
+            }
+
             //Request parameters and other properties.
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
             params.add(new BasicNameValuePair("key", key));
             params.add(new BasicNameValuePair("player_count", Integer.toString(Bukkit.getOnlinePlayers().size())));
             params.add(new BasicNameValuePair("max_players", Integer.toString(Bukkit.getMaxPlayers())));
-            params.add(new BasicNameValuePair("ip", Bukkit.getIp()));
+            params.add(new BasicNameValuePair("ip", usedIp));
             params.add(new BasicNameValuePair("port", Integer.toString(Bukkit.getPort())));
             params.add(new BasicNameValuePair("motd", Bukkit.getMotd()));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
