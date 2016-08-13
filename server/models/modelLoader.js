@@ -49,7 +49,8 @@ var server = new Schema({
     players             : [String],
     vote_count          : Number,
     web_page_index      : String,
-    web_page_locked     : Boolean
+    web_page_locked     : Boolean,
+    third_party         : Boolean
 });
 mongoose.model('server', server);
 
