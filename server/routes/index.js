@@ -19,8 +19,7 @@ router.post('/status/bukkit', function(req, res, next) {
         return res.end('Unable to find server with matching key.');
       }
 
-      Server.update({_id: server._id}, {
-        $set: {
+      Server.update({_id: server._id}, {$set: {
           third_party: true,
           last_online_date: new Date(),
           online: true,
@@ -31,6 +30,9 @@ router.post('/status/bukkit', function(req, res, next) {
           motd: req.body.motd
         }
       }, function(err) {
+        if(err) {
+          console.log(err);
+        }
         console.log('Updated ' + server.name);
         return res.end('success');
       })
