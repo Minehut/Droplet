@@ -50,7 +50,8 @@ var server = new Schema({
     vote_count          : Number,
     web_page_index      : String,
     web_page_locked     : Boolean,
-    third_party         : Boolean
+    third_party         : Boolean,
+    verified_droplet    : Boolean
 });
 mongoose.model('server', server);
 
