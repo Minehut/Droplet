@@ -19,6 +19,11 @@ router.post('/status/bukkit', function(req, res, next) {
         return res.end('Unable to find server with matching key.');
       }
 
+      if(!server.verified_droplet) {
+        console.log("Unverified server: " + server.name);
+        return res.end('Your server is not verified. Contact support@minehut.com for details.');
+      }
+
       Server.update({_id: server._id}, {$set: {'third_party': true, last_online_date: new Date(), online: true, player_count: req.body.player_count, max_players: req.body.max_players, ip: req.body.ip, port: req.body.port, motd: req.body.motd}}, function(err) {
         if(err) {
           console.log(err);
