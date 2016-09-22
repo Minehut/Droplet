@@ -1,3 +1,5 @@
+##Warning: 3rd party servers are currently disabled on Minehut. This project works perfectly. The service was disabled for non-technical reasons.
+
 # Droplet
 Software used to integrate third party servers into Minehut.
 
